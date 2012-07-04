@@ -1,0 +1,28 @@
+<h3>Rules</h3>
+<table class="table table-striped table-bordered table-condensed">
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Target Fact</th>
+    <th>Assertion</th>
+    <th>Predicate</th>
+    <th></th>
+  </tr>
+
+  <% @backfire_rules.each do |backfire_rule| %>
+      <tr>
+        <td><%= backfire_rule.name %></td>
+        <td><%= backfire_rule.description %></td>
+        <td><%= backfire_rule.fact %></td>
+        <td><%= backfire_rule.assertion %></td>
+        <td><%= backfire_rule.predicate %></td>
+        <td><%= link_to 'Details', backfire_rule %></td>
+      </tr>
+  <% end %>
+</table>
+<br/>
+<div class='row'>
+  <div class='span2'><%= link_to 'New Rule', new_backfire_control_backfire_rule_path(@backfire_control) %></div>
+  <div class='span10'><%= will_paginate @backfire_rules, param_name: 'rule_page' %></div>
+</div>
+<br/>

@@ -1,0 +1,35 @@
+<% provide(:title, 'All Rule Bases') %>
+
+<h1>All Rule Bases</h1>
+
+<%= will_paginate %>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Rulechain option</th>
+    <th>Runaway limit</th>
+    <th>Log option</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @backfire_controls.each do |backfire_control| %>
+  <tr>
+    <td><%= backfire_control.name %></td>
+    <td><%= backfire_control.description %></td>
+    <td><%= backfire_control.rulechain_option %></td>
+    <td><%= backfire_control.runaway_limit %></td>
+    <td><%= backfire_control.log_option %></td>
+    <td><%= link_to 'Show', backfire_control %></td>
+    <td><%= link_to 'Edit', edit_backfire_control_path(backfire_control) %></td>
+    <td><%= link_to 'Destroy', backfire_control, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Backfire control', new_backfire_control_path %>

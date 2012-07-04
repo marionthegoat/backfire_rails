@@ -1,0 +1,26 @@
+<h3>Queries</h3>
+<table class="table table-striped table-bordered table-condensed">
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Target Fact</th>
+    <th>Expression</th>
+    <th></th>
+  </tr>
+
+  <% @backfire_queries.each do |backfire_query| %>
+      <tr>
+        <td><%= backfire_query.name %></td>
+        <td><%= backfire_query.description %></td>
+        <td><%= backfire_query.fact %></td>
+        <td><%= backfire_query.expression %></td>
+        <td><%= link_to 'Details', backfire_query %></td>
+      </tr>
+  <% end %>
+</table>
+<div class='row'>
+  <div class='new_button span2'><%= link_to 'New Query', new_backfire_control_backfire_query_path(@backfire_control) %></div>
+  <div class='span10'><%= will_paginate @backfire_queries, param_name: 'query_page' %></div>
+</div>
+<br/>
+

@@ -1,0 +1,42 @@
+<aside class="span4">
+  <div>
+    <p>
+      <b>Name:</b>
+      <%= @backfire_control.name %>
+    </p>
+
+    <p>
+      <b>Description:</b>
+      <%= @backfire_control.description %>
+    </p>
+  </div>
+</aside>
+<aside class="span4">
+  <div>
+    <p>
+      <b>Runaway limit:</b>
+      <%= @backfire_control.runaway_limit %>
+    </p>
+
+    <p>
+      <b>Log Output:</b>
+      <%= check_box "backfire_control", "log_output", {readonly: true, disabled: true}, "Y", "N" %>
+    </p>
+  </div>
+</aside>
+<div>
+  <p>
+    <b>Chain Option:</b>
+    <%= @backfire_control.rulechain_option_desc %>
+  </p>
+</div>
+
+<nav>
+  <%= link_to 'Edit', edit_backfire_control_path(@backfire_control) %> |
+
+  <%= link_to 'Delete', backfire_control_path, confirm: 'Are you sure?', method: :delete %> |
+
+  <%= link_to 'Back', backfire_controls_path %>
+</nav>
+
+<br/>

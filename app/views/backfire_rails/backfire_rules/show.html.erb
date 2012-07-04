@@ -1,0 +1,34 @@
+<h1>Rule Base</h1>
+
+<%= render 'backfire_rails/shared/rule_base_short' %>
+
+<p>
+  <b>Name:</b>
+  <%= @backfire_rule.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @backfire_rule.description %>
+</p>
+
+<p>
+  <b>Receiving Fact:</b>
+  <%= @backfire_rule.fact %>
+</p>
+
+<p>
+  <b>Assertion:</b>
+  <%= @backfire_rule.assertion %>
+</p>
+
+<p>
+  <b>Predicate:</b>
+  <%= @backfire_rule.predicate %>
+</p>
+
+
+<%= link_to 'Edit', edit_backfire_rule_path(@backfire_rule) %> |
+<%= link_to 'Delete', backfire_rule_path, confirm: 'Are you sure?', method: :delete %> |
+<%= link_to 'Create Another Rule', new_backfire_control_backfire_query_path(@backfire_control) %> |
+<%= link_to 'Back', backfire_control_path(@backfire_control) %>

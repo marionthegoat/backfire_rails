@@ -1,0 +1,29 @@
+<h1>Rule Base</h1>
+
+<%= render 'backfire_rails/shared/rule_base_short' %>
+
+<h3>Query Details</h3>
+<p>
+  <b>Name:</b>
+  <%= @backfire_query.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @backfire_query.description %>
+</p>
+
+<p>
+  <b>Expression:</b>
+  <%= @backfire_query.expression %>
+</p>
+
+<p>
+  <b>Fact:</b>
+  <%= @backfire_query.fact %>
+</p>
+
+<%= link_to 'Edit', edit_backfire_query_path(@backfire_query) %> |
+<%= link_to 'Delete', backfire_query_path, confirm: 'Are you sure?', method: :delete %> |
+<%= link_to 'Create Another Query', new_backfire_control_backfire_query_path(@backfire_control) %> |
+<%= link_to 'Back', backfire_control_path(@backfire_control) %>

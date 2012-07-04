@@ -1,0 +1,30 @@
+<h1>Rule Base Listing</h1>
+
+<table class="table table-striped table-bordered">
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Chain Option</th>
+    <th>Runaway Limit</th>
+    <th>Log Output</th>
+    <th></th>
+  </tr>
+
+  <% @backfire_controls.each do |backfire_control| %>
+      <tr>
+        <td><%= backfire_control.name %></td>
+        <td><%= backfire_control.description %></td>
+        <td><%= backfire_control.rulechain_option_desc %></td>
+        <td><%= backfire_control.runaway_limit %></td>
+        <td><%= check_box_tag "log_option_boolean", nil, backfire_control.log_option_boolean, {disabled: true} %></td>
+        <td><%= link_to 'Details', backfire_control %></td>
+      </tr>
+  <% end %>
+</table>
+<%= will_paginate %>
+
+<br />
+
+<%= button_to 'New Rule Base', new_backfire_control_path %>
+
+
