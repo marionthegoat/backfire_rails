@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(:version => 20120611144114) do
     t.string   "description"
     t.string   "rulechain_option", :null => false
     t.integer  "runaway_limit",    :null => false
-    t.string   "log_output",       :null => false
+    t.boolean  "log_output",       :null => false
     t.integer  "lock_version",     :null => false
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(:version => 20120611144114) do
     t.string   "description"
     t.text     "expression",          :null => false
     t.string   "fact",                :null => false
+    t.boolean  "prompt",              :null => false
     t.integer  "lock_version",        :null => false
     t.datetime "created_at",          :null => false
     t.datetime "updated_at",          :null => false
@@ -53,13 +54,14 @@ ActiveRecord::Schema.define(:version => 20120611144114) do
     t.string   "rulebase_name",             :null => false
     t.string   "forward_back", :null => false
     t.integer  "max_iterations",    :null => false
-    t.string   "show_log",       :null => false
+    t.boolean  "show_log",       :null => false
   end
 
   create_table "alt_queries", :force => true do |t|
     t.string   "alt_name",                :null => false
     t.text     "alt_expression",          :null => false
-    t.string   "target_fact",                :null => false
+    t.string   "target_fact",             :null => false
+    t.boolean  "prompt_flag",             :null => false
   end
 
   create_table "alt_rules", :force => true do |t|

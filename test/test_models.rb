@@ -7,8 +7,8 @@ end
 # alternate model classes provided to allow testing of overridden attribute/column names
 class AltQuery  < ActiveRecord::Base
   include BackfireRailsQuery
-  acts_as_backfire_query :query_name_field => :query_name, :query_expression_field => :query_expression,
-                         :query_fact_field => :target_fact
+  acts_as_backfire_query query_name_field: :query_name, query_expression_field: :query_expression,
+                         query_fact_field: :target_fact, query_prompt_field: :prompt_flag
 end
 
 class AltRule  < ActiveRecord::Base

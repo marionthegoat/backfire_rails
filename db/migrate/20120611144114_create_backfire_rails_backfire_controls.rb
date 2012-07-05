@@ -5,7 +5,7 @@ class CreateBackfireRailsBackfireControls < ActiveRecord::Migration
       t.string :description
       t.string :rulechain_option, :null => false
       t.integer :runaway_limit, :null => false
-      t.string :log_option, :null => false
+      t.string :log_option, :default => true, :null => false
       t.integer :lock_version, :null => false
       t.timestamps
     end

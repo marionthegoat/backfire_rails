@@ -16,7 +16,7 @@
         <td><%= backfire_control.description %></td>
         <td><%= backfire_control.rulechain_option_desc %></td>
         <td><%= backfire_control.runaway_limit %></td>
-        <td><%= check_box_tag "log_option_boolean", nil, backfire_control.log_option_boolean, {disabled: true} %></td>
+        <td><%= check_box_tag "log_output", nil, backfire_control.log_output, {disabled: true} %></td>
         <td><%= link_to 'Details', backfire_control %></td>
       </tr>
   <% end %>

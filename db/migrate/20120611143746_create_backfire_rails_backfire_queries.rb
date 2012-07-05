@@ -6,6 +6,7 @@ class CreateBackfireRailsBackfireQueries < ActiveRecord::Migration
       t.string :description
       t.text :expression, :null => false
       t.string :fact, :null => false
+      t.boolean :prompt, null: false, default: false
       t.integer :lock_version, :null => false
       t.timestamps
     end

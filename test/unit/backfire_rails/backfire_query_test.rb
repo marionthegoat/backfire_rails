@@ -19,6 +19,10 @@ module BackfireRails
         BackfireQuery.query_fact_field.must_equal "fact"
       end
 
+      it "has a configurable prompt flag" do
+        BackfireQuery.query_prompt_field.must_equal "prompt"
+      end
+
 
       describe "responds to default attributes" do
         before do
@@ -41,6 +45,10 @@ module BackfireRails
         it "responds to fact" do
           @query.must_respond_to :fact
         end
+
+        it "responds to prompt" do
+          @query.must_respond_to :prompt
+        end
       end
 
     end
@@ -59,6 +67,10 @@ module BackfireRails
         AltQuery.query_fact_field.must_equal "target_fact"
       end
 
+      it "has a configurable prompt flag" do
+        AltQuery.query_prompt_field.must_equal "prompt_flag"
+      end
+
       describe "it responds to alternate attribute names" do
         before do
           @alt_query = AltQuery.new
@@ -74,6 +86,10 @@ module BackfireRails
 
         it "responds to alternate fact" do
           @alt_query.must_respond_to :target_fact
+        end
+
+        it "responds to alternate prompt flag" do
+          @alt_query.must_respond_to :prompt_flag
         end
 
       end

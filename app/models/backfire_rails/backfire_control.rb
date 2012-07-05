@@ -11,22 +11,16 @@ module BackfireRails
 
     before_save :defaults, :upcases
 
-    def log_option_boolean
-      return true if self.log_output == "Y"
-      false
-    end
-
     private
 
       def defaults
         self.rulechain_option = "B" if self.rulechain_option.nil?
-        self.log_output = "Y" if self.log_output.nil?
+        self.log_output = true if self.log_output.nil?
         self.runaway_limit = 20 if self.runaway_limit.nil?
       end
 
       def upcases
         self.name.upcase!
-        self.log_output.upcase!
         self.rulechain_option.upcase!
       end
 

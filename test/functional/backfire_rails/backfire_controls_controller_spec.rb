@@ -27,7 +27,7 @@ class BackfireControlsControllerSpec < ControllerSpec
 
   describe "#create" do
     before do
-      @attr = { name: "TEST", description: "Test rule base", log_output: "N", runaway_limit:20, rulechain_option: "F"}
+      @attr = { name: "TEST", description: "Test rule base", log_output: false, runaway_limit:20, rulechain_option: "F"}
     end
     it "must create a new record in the database" do
       assert_difference('BackfireControl.count') do
@@ -61,7 +61,7 @@ class BackfireControlsControllerSpec < ControllerSpec
 
   describe "#update" do
     before do
-      @attr = { name: "SHOW/EDIT TEST", description: "show me / edit me", log_output: "N", runaway_limit:20, rulechain_option: "F"}
+      @attr = { name: "SHOW/EDIT TEST", description: "show me / edit me", log_output: false, runaway_limit:20, rulechain_option: "F"}
       @show_edit_me = BackfireControl.create(:name=>"SHOW/EDIT TEST")
     end
     it "should update backfire_control" do

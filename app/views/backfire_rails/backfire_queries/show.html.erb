@@ -23,6 +23,11 @@
   <%= @backfire_query.fact %>
 </p>
 
+<p>
+  <b>Prompt:</b>
+  <%= check_box "backfire_query", "prompt", {readonly: true, disabled: true} %>
+</p>
+
 <%= link_to 'Edit', edit_backfire_query_path(@backfire_query) %> |
 <%= link_to 'Delete', backfire_query_path, confirm: 'Are you sure?', method: :delete %> |
 <%= link_to 'Create Another Query', new_backfire_control_backfire_query_path(@backfire_control) %> |

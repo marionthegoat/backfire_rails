@@ -3,6 +3,7 @@
   <tr>
     <th>Name</th>
     <th>Description</th>
+    <th>Prompt?</th>
     <th>Target Fact</th>
     <th>Expression</th>
     <th></th>
@@ -12,6 +13,7 @@
       <tr>
         <td><%= backfire_query.name %></td>
         <td><%= backfire_query.description %></td>
+        <td><%= check_box_tag "prompt", nil, backfire_query.prompt, {disabled: true} %></td>
         <td><%= backfire_query.fact %></td>
         <td><%= backfire_query.expression %></td>
         <td><%= link_to 'Details', backfire_query %></td>

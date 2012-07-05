@@ -12,13 +12,17 @@
         </div>
     <% end %>
     <div class="row ">
-      <div class="field span6">
+      <div class="field span4">
         <%= f.label :name %>
         <%= f.text_field :name %>
       </div>
       <div class="field span6">
         <%= f.label 'Receiving Fact' %>
         <%= f.text_field :fact %>
+      </div>
+      <div class="field span 2">
+        <%= f.label :prompt %><br />
+        <%= f.check_box :prompt, {} %>
       </div>
     </div>
     <div class="field">
