@@ -1,0 +1,20 @@
+<h1>Rule Base Testing</h1>
+<div>
+  <p>
+    <b>Name:</b>
+    <%= @backfire_control.name %>
+  </p>
+
+  <p>
+    <b>Description:</b>
+    <%= @backfire_control.description %>
+  </p>
+
+  <p>
+    <b>Determinants Loaded</b>
+    <%=  @backfire_session.determinants.count %>
+  </p>
+
+</div>
+
+<%= link_to 'Back', backfire_controls_path %>

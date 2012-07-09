@@ -17,22 +17,5 @@ include Backfire::Model
         @session.must_respond_to :key
       end
 
-      it "should respond to workspace" do
-        @session.must_respond_to :workspace
-      end
-
-      it "should respond to state" do
-        @session.must_respond_to :state
-      end
-
-      it "should respond to prompt" do
-        @session.must_respond_to :prompt
-      end
-
-      it "should have an initialized workspace" do
-        @session.workspace.wont_be_nil
-        @session.workspace.must_be_instance_of Backfire::Model::Workspace
-      end
-
     end
   end

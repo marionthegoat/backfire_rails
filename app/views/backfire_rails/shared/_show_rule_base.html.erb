@@ -36,7 +36,9 @@
 
   <%= link_to 'Delete', backfire_control_path, confirm: 'Are you sure?', method: :delete %> |
 
-  <%= link_to 'Back', backfire_controls_path %>
+  <%= link_to 'Back', backfire_controls_path %> |
+
+  <%= link_to 'Test Session', backfire_control_backfire_session_path(1)  %>
 </nav>
 
 <br/>

@@ -18,7 +18,7 @@ class BackfireQueriesControllerSpec < ControllerSpec
 
   describe "#create" do
     before do
-      @attr = {name: "TEST", description: "Test query", fact: "evidence", expression: "fingerprints"}
+      @attr = {name: "TEST", description: "Test query", fact: "evidence", expression: "fingerprints", prompt: false}
     end
     it "must create a new record in the database" do
       assert_difference('BackfireQuery.count') do
