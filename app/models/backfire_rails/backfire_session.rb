@@ -26,7 +26,8 @@ module BackfireRails
 
     # removes session from cache
     def self.delete (key)
-      @@sessions[key] = nil
+      @@sessions.delete(key)
+
     end
 
     def self.model_name # initialize ActiveModel::Naming mixin
@@ -48,6 +49,10 @@ module BackfireRails
 
     def persisted? # required for ActiveModel-ness
       false
+    end
+
+    def self.has_instance?(key)
+      @@sessions.has_key?(key)
     end
 
 

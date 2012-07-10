@@ -52,6 +52,18 @@ class BackfireSessionsControllerSpec < ControllerSpec
     end
   end
 
+  describe "#delete" do
+    before do
+      @backfire_control = FactoryGirl.create(:backfire_control_with_children)
+      get :show, backfire_control_id: @backfire_control, id: 1, use_route: :backfire_rails
+    end
+    it "must be able to delete session" do
+      delete :destroy, use_route: :backfire_rails
+      assert_response :redirect
+      BackfireSession.has_instance?(@cookie.to_sym).must_equal false
+    end
+  end
+
 
 
 
