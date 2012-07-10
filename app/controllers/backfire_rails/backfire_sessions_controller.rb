@@ -26,6 +26,7 @@ module BackfireRails
         @backfire_control = @backfire_session.control_params
       end
       @backfire_session.load_determinants
+      @backfire_session.solve(params[:goal_fact])
 
       respond_to do |format|
         unless @backfire_session.nil?
@@ -39,11 +40,14 @@ module BackfireRails
 
     def update
       @backfire_session = BackfireSession.instance(browser_token)
+      @backfire_session.prompt_response = params[:prompt_response]
+      @backfire_session.goal_fact = params[:goal_fact] unless params[:goal_fact].nil?
+
       respond_to do |format|
-        if @backfire_session.prompt_response(params[:prompt_response])
-          format.html { redirect_to @backfire_session}
+        unless @backfire_session.state == Backfire::Model::Workspace::STATE_ERROR
+          format.html { redirect_to backfire_control_backfire_session_url(@backfire_control,1)}
         else
-          format.html { redirect_to @backfire_session, notice: 'Response could not be processed.' }
+          format.html { redirect_to backfire_control_backfire_session_url(@backfire_control,1), notice: 'Response could not be processed.' }
         end
       end
     end

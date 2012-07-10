@@ -67,7 +67,7 @@ module BackfireRailsQueryInstanceMethods
 
   def query_instance
     @query_instance= Query.new(self.query_name, Expression.parse(self.query_expression), self.query_fact_name, self.query_prompt) if @query_instance.nil?
-    return @query_instance
+    @query_instance
   end
 
 

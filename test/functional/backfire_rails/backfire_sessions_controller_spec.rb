@@ -5,12 +5,19 @@ include BackfireRails
 class BackfireSessionsControllerSpec < ControllerSpec
   before do
     @controller = BackfireSessionsController.new
-    @backfire_control = FactoryGirl.create(:backfire_control_with_children)
     @cookie = "cookie"
     @request.cookies[:session_id] = @cookie
   end
 
+  after do
+      BackfireSession.delete(@cookie.to_sym)
+  end
+
+
   describe "#show" do
+    before do
+      @backfire_control = FactoryGirl.create(:backfire_control_with_children)
+    end
     it "should show session" do
       get :show, backfire_control_id: @backfire_control, id: 1, use_route: :backfire_rails
       assert_response :success
@@ -18,34 +25,32 @@ class BackfireSessionsControllerSpec < ControllerSpec
   end
 
   describe "#create" do
+    before do
+      @backfire_control = FactoryGirl.create(:backfire_control_with_children)
+    end
     it "must load the session workspace" do
-        post :create, backfire_control_id: @backfire_control, use_route: :backfire_rails
+        post :create, backfire_control_id: @backfire_control, goal_fact: "fact_1", use_route: :backfire_rails
         assert_response :redirect
-        bs = BackfireSession.instance(@cookie.to_sym)
+        bs = BackfireSession.instance(@cookie.to_sym) # obtain the session to examine it
         bs.determinants.count.must_equal 5
     end
   end
 
-  #  end
-  #end
-  #
-  #
-  #describe "#create" do
-  #  before do
-  #    @attr = {key: @key}
-  #  end
-  #  it "creates and loads instance" do
-  #    post :create, backfire_session: @attr, use_route: :backfire_rails
-  #    @session.rules.count.must_equal 1
-  #    @session.queries.count.must_equal 2
-  #  end
-  #end
-  #
-  #describe "#update" do
-  #  it "should update backfire_control" do
-  #    put :update, id: @session,  backfire_control: @attr, use_route: :backfire_rails
-  #  end
-  #end
+
+  describe "#update" do
+    before do
+      @backfire_control = FactoryGirl.create(:rulebase_with_prompt)
+      # start session, get it working on goal fact
+      post :create, backfire_control_id: @backfire_control, goal_fact: "what_to_buy", use_route: :backfire_rails
+      bs = BackfireSession.instance(@cookie.to_sym)
+      bs.dump
+    end
+
+    it "must accept prompt responses in update" do
+      put :update, prompt_response: "true",  use_route: :backfire_rails
+      assert_response :redirect
+    end
+  end
 
 
 

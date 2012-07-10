@@ -64,6 +64,7 @@ module BackfireRailsRuleInstanceMethods
   def rule_instance
     @rule_instance=Rule.new(self.rule_name, Expression.parse(self.rule_assertion),
         self.rule_fact_name, Expression.parse(self.rule_predicate)) if @rule_instance.nil?
+    @rule_instance
   end
 
 

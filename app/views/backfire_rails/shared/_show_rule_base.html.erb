@@ -34,7 +34,7 @@
 <nav>
   <%= link_to 'Edit', edit_backfire_control_path(@backfire_control) %> |
 
-  <%= link_to 'Delete', backfire_control_path, confirm: 'Are you sure?', method: :delete %> |
+  <%= link_to 'Delete', backfire_control_path, :data => { :confirm => 'Are you sure you wish to delete this record ?' }, method: :delete %> |
 
   <%= link_to 'Back', backfire_controls_path %> |
 

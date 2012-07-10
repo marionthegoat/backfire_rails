@@ -10,13 +10,21 @@ FactoryGirl.define do
           FactoryGirl.create_list :backfire_rule, 2, backfire_control: backfire_control
         end
       end
+      factory :rulebase_with_prompt do
+        after :create do |backfire_control|
+          FactoryGirl.create :backfire_query, prompt: true, fact: "who_is_hungry", expression: "'who is hungry'", backfire_control: backfire_control
+          FactoryGirl.create :backfire_rule, fact: "what_to_buy", assertion: "@who_is_hungry.value == 'CAT'", predicate: "'Milk'", backfire_control: backfire_control
+          FactoryGirl.create :backfire_rule, fact: "what_to_buy", assertion: "@who_is_hungry.value == 'DOG'", predicate: "'Steak'", backfire_control: backfire_control
+          FactoryGirl.create :backfire_rule, fact: "what_to_buy", assertion: "@who_is_hungry.value == 'BIRD'", predicate: "'Worms'", backfire_control: backfire_control
+        end
+      end
   end
 
   factory :backfire_query, class: BackfireQuery do
     sequence(:name) {|n| "QUERY_#{n}"}
     sequence(:description) {|n| "Query #{n}"}
     sequence(:fact) {|n| "fact_#{n}"}
-    expression "Lorem Ipsum"
+    expression "'Lorem Ipsum'"
     prompt false
     backfire_control
   end
@@ -25,8 +33,8 @@ FactoryGirl.define do
     sequence(:name) {|n| "RULE_#{n}"}
     sequence(:description) {|n| "Rule #{n}"}
     sequence(:fact) {|n| "fact_#{n}"}
-    assertion "Imbibio"
-    predicate "ergo Sum"
+    assertion "@activity == 'Imbibio'"
+    predicate "'Ergo Sum'"
     backfire_control
   end
 
