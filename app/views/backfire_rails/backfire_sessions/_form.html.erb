@@ -1,0 +1,24 @@
+<%= form_for( @backfire_session,  url: backfire_control_backfire_session_path(@backfire_control,1)) do |f| %>
+    <% if @backfire_session.is_awaiting_input? %>
+    <div class="field">
+      <%= f.label @backfire_session.prompt %>
+    </div>
+    <div class="field">
+      <%= f.label "Your Response" %>
+      <%= f.text_area :prompt_response %>
+    </div>
+    <% end %>
+    <div class="field">
+      <%= f.label "Goal Fact" %>
+      <%= f.text_field :goal_fact %>
+    </div>
+    <% if @backfire_session.is_awaiting_input? %>
+    <div class="actions">
+      <%= f.submit "Submit Response" %>
+    </div>
+    <% else %>
+        <div class="actions">
+          <%= f.submit "Start Session" %>
+        </div>
+    <% end %>
+<% end %>

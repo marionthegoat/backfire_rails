@@ -1,5 +1,6 @@
 require_relative '../../test_helper'
 require_relative '../../factories'
+
 include BackfireRails
 
 class BackfireSessionsControllerSpec < ControllerSpec

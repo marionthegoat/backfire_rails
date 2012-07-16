@@ -1,0 +1,48 @@
+<div class="row">
+  <div class="span4">
+    <p>
+      <b>Name:</b>
+      <%= @backfire_control.name %>
+    </p>
+  </div>
+  <div class="span4">
+    <p>
+      <b>Determinants Loaded</b>
+      <%=  @backfire_session.determinants.count %>
+    </p>
+  </div>
+  <div class=span4>
+    <p>
+      <b>Session State</b>
+      <%= @backfire_session.state %>
+    </p>
+  </div>
+</div>
+<div class="row">
+  <div class="span4">
+    <p>
+      <b>Description:</b>
+      <%= @backfire_control.description %>
+    </p>
+  </div>
+  <div class="span4">
+    </p>
+  </div>
+  <div class="span4">
+    <%= link_to 'Back', backfire_controls_path %>
+  </div>
+
+</div>
+
+<% if @backfire_session.errors.full_messages.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@backfire_query.errors.count, "error") %> prevented this backfire_query from being
+        saved:</h2>
+
+      <ul>
+        <% @backfire_query.errors.each do |msg| %>
+            <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+<% end %>

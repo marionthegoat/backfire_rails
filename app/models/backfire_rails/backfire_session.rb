@@ -50,6 +50,17 @@ module BackfireRails
     def persisted? # required for ActiveModel-ness
       false
     end
+    def valid?()      true end
+    def new_record?() true end
+    def destroyed?()  true end
+
+    def errors
+      obj = Object.new
+      def obj.[](key)         [] end
+      def obj.full_messages() [] end
+      obj
+    end
+
 
     def self.has_instance?(key)
       @@sessions.has_key?(key)

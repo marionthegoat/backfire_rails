@@ -2,7 +2,41 @@ require_dependency "backfire_rails/application_controller"
 module BackfireRails
   class BackfireSessionsController < ApplicationController
 
+# conventions :
+# show will create a session instance if there is not one currently
+# create will load the workspace and commence solve
+# update applies prompt response and resumes solve
+# destroy deletes the session and associated workspace from the cache
+
     def show
+      # create session on the fly if it's not there.
+      @backfire_session = BackfireSession.instance(browser_token)
+      if @backfire_session.nil?
+        @backfire_control = BackfireControl.find(params[:backfire_control_id])
+        @backfire_session = BackfireSession.instance(browser_token, @backfire_control)
+      else
+        @backfire_control = @backfire_session.control_params
+      end
+      respond_to do |format|
+        format.html # show.html.erb
+      end
+    end
+
+    def new
+      # create session on the fly if it's not there.
+      @backfire_session = BackfireSession.instance(browser_token)
+      if @backfire_session.nil?
+        @backfire_control = BackfireControl.find(params[:backfire_control_id])
+        @backfire_session = BackfireSession.instance(browser_token, @backfire_control)
+      else
+        @backfire_control = @backfire_session.control_params
+      end
+      respond_to do |format|
+        format.html # show.html.erb
+      end
+    end
+
+    def edit
       # create session on the fly if it's not there.
       @backfire_session = BackfireSession.instance(browser_token)
       if @backfire_session.nil?
