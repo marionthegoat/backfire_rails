@@ -8,4 +8,6 @@ BackfireRails::Engine.routes.draw do
 
   post '/backfire_controls/:backfire_control_id/backfire_sessions/:id', :controller => 'backfire_rails/backfire_sessions', :action => 'create'
   get '/backfire_controls/:backfire_control_id/backfire_sessions/:id', :controller => 'backfire_rails/backfire_sessions', :action => 'show'
+
+
 end

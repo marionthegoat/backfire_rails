@@ -11,13 +11,15 @@ class BackfireSessionsControllerSpec < ControllerSpec
   end
 
   after do
-      BackfireSession.delete(@cookie.to_sym)
+      bs=BackfireSession.find_by_session_key(@cookie)
+      bs.destroy unless bs.nil?
   end
 
 
   describe "#show" do
     before do
       @backfire_control = FactoryGirl.create(:backfire_control_with_children)
+      @backfire_control.backfire_sessions.create(session_key: @cookie)
     end
     it "should show session" do
       get :show, backfire_control_id: @backfire_control, id: 1, use_route: :backfire_rails
@@ -28,11 +30,12 @@ class BackfireSessionsControllerSpec < ControllerSpec
   describe "#create" do
     before do
       @backfire_control = FactoryGirl.create(:backfire_control_with_children)
+      @attr = {goal_fact: "what_to_buy", session_key: @cookie}
     end
     it "must load the session workspace" do
-        post :create, backfire_control_id: @backfire_control, goal_fact: "fact_1", use_route: :backfire_rails
+        post :create, backfire_control_id: @backfire_control, backfire_session: @attr, use_route: :backfire_rails
         assert_response :redirect
-        bs = BackfireSession.instance(@cookie.to_sym) # obtain the session to examine it
+        bs = BackfireSession.find_by_session_key(@cookie) # obtain the session to examine it
         bs.determinants.count.must_equal 5
     end
   end
@@ -41,14 +44,16 @@ class BackfireSessionsControllerSpec < ControllerSpec
   describe "#update" do
     before do
       @backfire_control = FactoryGirl.create(:rulebase_with_prompt)
+      attr = {goal_fact: "what_to_buy", session_key: @cookie}
+      @backfire_session = @backfire_control.backfire_sessions.create(attr)
       # start session, get it working on goal fact
-      post :create, backfire_control_id: @backfire_control, goal_fact: "what_to_buy", use_route: :backfire_rails
-      bs = BackfireSession.instance(@cookie.to_sym)
+      put :update, id: @backfire_session, goal_fact: "what_to_buy", use_route: :backfire_rails
+      bs = BackfireSession.find_by_session_key(@cookie)
       bs.dump
     end
 
     it "must accept prompt responses in update" do
-      put :update, prompt_response: "true",  use_route: :backfire_rails
+      put :update, id: @backfire_session, prompt_response: "true",  use_route: :backfire_rails
       assert_response :redirect
     end
   end
@@ -56,10 +61,12 @@ class BackfireSessionsControllerSpec < ControllerSpec
   describe "#delete" do
     before do
       @backfire_control = FactoryGirl.create(:backfire_control_with_children)
-      get :show, backfire_control_id: @backfire_control, id: 1, use_route: :backfire_rails
+      attr = {goal_fact: "what_to_buy", session_key: @cookie}
+      @backfire_session = @backfire_control.backfire_sessions.create(attr)
+      get :show, id: @backfire_session, use_route: :backfire_rails
     end
     it "must be able to delete session" do
-      delete :destroy, use_route: :backfire_rails
+      delete :destroy, id:@backfire_session, use_route: :backfire_rails
       assert_response :redirect
       BackfireSession.has_instance?(@cookie.to_sym).must_equal false
     end

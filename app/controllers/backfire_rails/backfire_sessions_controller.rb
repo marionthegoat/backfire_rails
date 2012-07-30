@@ -2,21 +2,9 @@ require_dependency "backfire_rails/application_controller"
 module BackfireRails
   class BackfireSessionsController < ApplicationController
 
-# conventions :
-# show will create a session instance if there is not one currently
-# create will load the workspace and commence solve
-# update applies prompt response and resumes solve
-# destroy deletes the session and associated workspace from the cache
-
     def show
-      # create session on the fly if it's not there.
-      @backfire_session = BackfireSession.instance(browser_token)
-      if @backfire_session.nil?
-        @backfire_control = BackfireControl.find(params[:backfire_control_id])
-        @backfire_session = BackfireSession.instance(browser_token, @backfire_control)
-      else
-        @backfire_control = @backfire_session.control_params
-      end
+      @backfire_session = BackfireSession.find(params[:id])
+      @backfire_control = @backfire_session.backfire_control
       respond_to do |format|
         format.html # show.html.erb
       end
@@ -24,27 +12,21 @@ module BackfireRails
 
     def new
       # create session on the fly if it's not there.
-      @backfire_session = BackfireSession.instance(browser_token)
-      if @backfire_session.nil?
-        @backfire_control = BackfireControl.find(params[:backfire_control_id])
-        @backfire_session = BackfireSession.instance(browser_token, @backfire_control)
-      else
-        @backfire_control = @backfire_session.control_params
-      end
+      @backfire_session = BackfireSession.new
+      #if @backfire_session.nil?
+      #  @backfire_control = BackfireControl.find(params[:backfire_control_id])
+      #  @backfire_session = BackfireSession.instance(browser_token, @backfire_control)
+      #else
+      #  @backfire_control = @backfire_session.control_params
+      #end
       respond_to do |format|
         format.html # show.html.erb
       end
     end
 
     def edit
-      # create session on the fly if it's not there.
-      @backfire_session = BackfireSession.instance(browser_token)
-      if @backfire_session.nil?
-        @backfire_control = BackfireControl.find(params[:backfire_control_id])
-        @backfire_session = BackfireSession.instance(browser_token, @backfire_control)
-      else
-        @backfire_control = @backfire_session.control_params
-      end
+
+      @backfire_control = BackfireControl.find(params[:id])
       respond_to do |format|
         format.html # show.html.erb
       end
@@ -52,20 +34,15 @@ module BackfireRails
 
     # here we are using create to initialize the session workspace
     def create
-      @backfire_session = BackfireSession.instance(browser_token)
-      if @backfire_session.nil?
-        @backfire_control = BackfireControl.find(params[:backfire_control_id])
-        @backfire_session = BackfireSession.instance(browser_token, @backfire_control)
-      else
-        @backfire_control = @backfire_session.control_params
-      end
-      @backfire_session.load_determinants
-      @backfire_session.solve(params[:goal_fact])
-
+      puts "PARAMETERS = #{params.inspect}"
+      @backfire_control = BackfireControl.find(params[:backfire_control_id])
+      attr=params[:backfire_session]
+      attr[:session_key] = browser_token
+      @backfire_session = @backfire_control.backfire_sessions.create(attr)
       respond_to do |format|
         unless @backfire_session.nil?
 #         format.html { redirect_to @backfire_session,  notice: 'Session initialized.' } THIS FORM DOES NOT WORK, ends up with engine prefixing which controller doesn't have matching methods for
-          format.html { redirect_to backfire_control_backfire_session_url(@backfire_control,1),  notice: 'Session initialized.' }
+          format.html { redirect_to backfire_control_backfire_session_url(@backfire_control, 1), notice: 'Session initialized.' }
         else
           flash.now[:error] = 'Unable to initialize session.'
         end
@@ -73,21 +50,23 @@ module BackfireRails
     end
 
     def update
-      @backfire_session = BackfireSession.instance(browser_token)
-      @backfire_session.prompt_response = params[:prompt_response]
-      @backfire_session.goal_fact = params[:goal_fact] unless params[:goal_fact].nil?
-
-      respond_to do |format|
-        unless @backfire_session.state == Backfire::Model::Workspace::STATE_ERROR
-          format.html { redirect_to backfire_control_backfire_session_url(@backfire_control,1)}
-        else
-          format.html { redirect_to backfire_control_backfire_session_url(@backfire_control,1), notice: 'Response could not be processed.' }
+      @backfire_session = BackfireSession.find(params[:id])
+      if @backfire_session.update_attributes(params[:backfire_session])
+        respond_to do |format|
+          unless @backfire_session.state == Backfire::Model::Workspace::STATE_ERROR
+            format.html { redirect_to backfire_session_url(@backfire_session) }
+          else
+            flash.now[:error] = 'Unable to initialize session.'
+          end
         end
+      else
+        format.html { render action: "edit" }
       end
     end
 
     def destroy
-      BackfireSession.delete(browser_token)
+      @backfire_session = BackfireSession.find(params[:id])
+      @backfire_session.destroy
 
       respond_to do |format|
         format.html { redirect_to backfire_controls_url }
@@ -98,7 +77,7 @@ module BackfireRails
 
     def browser_token
       cookies[:session_id] = SecureRandom.urlsafe_base64 if cookies[:session_id].nil?
-      return cookies[:session_id].to_sym
+      return cookies[:session_id]
     end
 
   end

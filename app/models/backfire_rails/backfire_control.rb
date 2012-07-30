@@ -6,6 +6,7 @@ module BackfireRails
 
     has_many :backfire_queries, :class_name => 'BackfireRails::BackfireQuery', :dependent => :destroy
     has_many :backfire_rules, :class_name => 'BackfireRails::BackfireRule', :dependent => :destroy
+    has_many :backfire_sessions, :class_name => 'BackfireRails::BackfireSession', :dependent => :destroy
 
     validates_presence_of :name
 

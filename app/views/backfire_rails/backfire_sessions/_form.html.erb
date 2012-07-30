@@ -1,24 +1,30 @@
-<%= form_for( @backfire_session,  url: backfire_control_backfire_session_path(@backfire_control,1)) do |f| %>
-    <% if @backfire_session.is_awaiting_input? %>
-    <div class="field">
-      <%= f.label @backfire_session.prompt %>
-    </div>
-    <div class="field">
-      <%= f.label "Your Response" %>
-      <%= f.text_area :prompt_response %>
-    </div>
+<% if false %>
+    <%= "form_for(@backfire_session, url: backfire_control_backfire_session_path(@backfire_control, 1)) do |f|" %>
     <% end %>
-    <div class="field">
-      <%= f.label "Goal Fact" %>
-      <%= f.text_field :goal_fact %>
-    </div>
-    <% if @backfire_session.is_awaiting_input? %>
-    <div class="actions">
-      <%= f.submit "Submit Response" %>
-    </div>
-    <% else %>
-        <div class="actions">
-          <%= f.submit "Start Session" %>
+    <%= form_for(@backfire_session) do |f| %>
+        <% if @backfire_session.is_awaiting_input? %>
+            <div class="field">
+              <%= f.label @backfire_session.prompt %>
+            </div>
+            <div class="field">
+              <%= f.label "Your Response" %>
+              <%= f.text_area :prompt_response %>
+            </div>
+        <% end %>
+        <div class="field">
+          <%= f.label "Goal Fact" %>
+          <%= f.text_field :goal_fact, id: "goal_fact" %>
         </div>
+        <%= f.submit "Start Session" %>
     <% end %>
-<% end %>
+    <% if false %>
+        Hack comments:
+        the stuff below is in lieu of submit button ... nested ActiveModel resource in engine creates perfect storm in route generation here
+        use of form is to provide the desired data in params
+
+        <% if @backfire_session.is_awaiting_input? %>
+            <%= button_to "Submit Response", action: "update" %>
+        <% else %>
+            <%= button_to "Start Session", action: "create", form: {backfire_session: @backfire_session} %>
+        <% end %>
+    <% end %>

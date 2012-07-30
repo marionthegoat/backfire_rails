@@ -11,7 +11,28 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120611144114) do
+ActiveRecord::Schema.define(:version => 20120725154733) do
+
+  create_table "alt_controls", :force => true do |t|
+    t.string  "rulebase_name",  :null => false
+    t.string  "forward_back",   :null => false
+    t.integer "max_iterations", :null => false
+    t.boolean "show_log",       :null => false
+  end
+
+  create_table "alt_queries", :force => true do |t|
+    t.string  "alt_name",       :null => false
+    t.text    "alt_expression", :null => false
+    t.string  "target_fact",    :null => false
+    t.boolean "prompt_flag",    :null => false
+  end
+
+  create_table "alt_rules", :force => true do |t|
+    t.string "rule_name",     :null => false
+    t.text   "alt_assertion", :null => false
+    t.text   "alt_predicate", :null => false
+    t.string "target_fact",   :null => false
+  end
 
   create_table "backfire_rails_backfire_controls", :force => true do |t|
     t.string   "name",             :null => false
@@ -48,27 +69,10 @@ ActiveRecord::Schema.define(:version => 20120611144114) do
     t.datetime "updated_at",          :null => false
   end
 
- # these three are to test using alternate field naming in models
-
-  create_table "alt_controls", :force => true do |t|
-    t.string   "rulebase_name",             :null => false
-    t.string   "forward_back", :null => false
-    t.integer  "max_iterations",    :null => false
-    t.boolean  "show_log",       :null => false
-  end
-
-  create_table "alt_queries", :force => true do |t|
-    t.string   "alt_name",                :null => false
-    t.text     "alt_expression",          :null => false
-    t.string   "target_fact",             :null => false
-    t.boolean  "prompt_flag",             :null => false
-  end
-
-  create_table "alt_rules", :force => true do |t|
-    t.string   "rule_name",                :null => false
-    t.text     "alt_assertion",           :null => false
-    t.text     "alt_predicate",           :null => false
-    t.string   "target_fact",                :null => false
+  create_table "backfire_rails_backfire_sessions", :force => true do |t|
+    t.integer "backfire_control_id", :null => false
+    t.string  "session_key",         :null => false
+    t.string  "goal_fact"
   end
 
 end
